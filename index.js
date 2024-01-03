@@ -1,30 +1,29 @@
-let newData = document.createElement("li");
-
-function submitData() {
-    return fetch("http://localhost:3000/users", configurationObject)
+function submitData(name, email) {
+    return fetch("http://localhost:3000/users", {
+        method: "POST",
+        headers: {
+            "content-type": "application/json",
+            "accept": "application/json"
+        }, 
+        body: JSON.stringify({
+            name: name,
+            email: email,
+        })
+})
     .then((response) => response.json())
-    .then((data) => addData(data))
-};
-
-const configurationObject = {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-    }, 
-    body: JSON.stringify({
-        name: "Steve",
-        email: "steve@steve.com",
+    .then(function(data) {
+        const body = document.body;
+        console.log(body);
+        body.innerHTML = data.id;
+    })
+    .catch( function(error) {
+        error.message = 'Unauthorized Access';
+        const body = document.body;
+        console.log(body);
+        body.innerHTML = error;
     })
 };
 
-/*function addData(data) {
-    const newElement = document.createElement("li");
-    newElement.textContent = data;
-    document.querySelector("form").appendChild(newElement);
-    console.log(newElement);
-}*/
-
-submitData();
+submitData("dan", "dan.oswald32@gmail.com");
 
 
